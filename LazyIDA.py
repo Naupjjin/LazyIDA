@@ -96,9 +96,9 @@ class hotkey_action_handler_t(idaapi.action_handler_t):
         else:
             target_attr = "form_type"
 
-        if idaapi.IDA_SDK_VERSION >= 900:
+        try:
             dump_type = idaapi.BWN_HEXVIEW
-        else:
+        except AttributeError:
             dump_type = idaapi.BWN_DUMP
 
         if ctx.__getattribute__(target_attr) in (idaapi.BWN_DISASM, dump_type):
@@ -414,9 +414,9 @@ class UI_Hook(idaapi.UI_Hooks):
     def finish_populating_widget_popup(self, form, popup):
         form_type = idaapi.get_widget_type(form)
 
-        if idaapi.IDA_SDK_VERSION >= 900:
+        try:
             dump_type = idaapi.BWN_HEXVIEW
-        else:
+        except AttributeError:
             dump_type = idaapi.BWN_DUMP
 
         if form_type == idaapi.BWN_DISASM or form_type == dump_type:
